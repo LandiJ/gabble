@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title></title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="main.css" rel="stylesheet">
+</head>
+
+<body>
+
+
+    <div class="profile_header">
+
+
+        <h1 class="gabble_profile_header">Gabble!!</h1>
+
+
+        <div class="user">
+
+            {{#user}}
+            <div class="dropdown">
+                <button class="dropbtn">Logged in as {{user.name}}</button>
+                <div class="dropdown-content">
+                    <a href="./login">Login</a> <br>
+                    <a href="./profile">Profile</a><br>
+                    <a href="./signup">Signup</a><br>
+                    <a href="./index">
+                        <form action="/logout" method="post">
+
+                            <input class="submit" type="submit" value="Logout">
+
+                        </form>
+                    </a>
+                </div>
+            </div>
+            {{/user}} {{^user}}
+
+            <h3>No user logged in</h3>
+            {{/user}}
+        </div>
+    </div>
+    {{#user}}
+    <h4>{{user.name}}</h4>
+    <p>{{user.bio}}</p>
+    {{/user}}
+
+    <form action="/post" method="post">
+        <label for="">What's New?</label>
+        <input type="text" name="body">
+        <input type="submit" value="Post">
+
+    </form>
+
+    {{#posts}}{{body}}<br>{{/posts}}
+
+
+
+
+</body>
+
+</html>

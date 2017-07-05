@@ -10,17 +10,22 @@
 
 <body>
     <h1>LOGIN</h1>
+    {{#user}}
+    <h3>Logged in as {{user.name}}</h3>
+    {{/user}} {{^user}}
+    <h3>No user logged in</h3>
+    {{/user}}
+    <h3>
 
+        <form action="/login" method="post">
+            <label for="">Email</label>
+            <input type="text" name="email">
 
-    <form action="/login" method="post">
-        <label for="">Email</label>
-        <input type="text" name="email">
+            <label for="">password</label>
+            <input type="password" name="password">
+            <input type="submit" value="login">
 
-        <label for="">password</label>
-        <input type="password" name="password">
-        <input type="submit" value="login">
-
-    </form>
+        </form>
 
 
 </body>

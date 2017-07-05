@@ -21,13 +21,13 @@ app.use(session(sessionConfig));
 app.use(morgan("dev"));
 app.use(expressValidator());
 
-// function checkAuth(req, res, next) {
-//   if (!req.session.userMaybe) {
-//     return res.redirect("/login");
-//   } else {
-//     next();
-//   }
-// }
+function checkAuth(req, res, next) {
+  if (!req.session.userMaybe) {
+    return res.redirect("/login");
+  } else {
+    next();
+  }
+}
 // ROUTES
 
 app.use("/", express.static(__dirname + "/public"));
@@ -47,7 +47,7 @@ app.post("/users", function(req, res) {
   });
 });
 app.get("/login", function(req, res) {
-  res.render("login");
+  res.render("index", { user: req.session.userMaybe });
 });
 
 app.post("/login", function(req, res) {
@@ -80,8 +80,32 @@ app.post("/login", function(req, res) {
   });
 });
 
-app.get("/in", function(req, res) {
-  res.render("index", { user: req.session.userMaybe });
+app.get("/in", checkAuth, function(req, res) {
+  models.post
+    .findAll({
+      limit: 10,
+      order: [["createdAt", "DESC"]],
+      where: { authorid: req.session.userMaybe.id }
+    })
+    .then(function(foundPosts) {
+      res.render("profile", { user: req.session.userMaybe, posts: foundPosts });
+    });
+  //   res.render("profile", { user: req.session.userMaybe });
+});
+
+app.get("/profile", checkAuth, function(req, res) {
+  res.render("profile", { user: req.session.userMaybe });
+});
+
+app.post("/post", checkAuth, function(req, res) {
+  var newPost = models.post.build({
+    body: req.body.body,
+    authorid: req.session.userMaybe.id
+  });
+  //   res.send(newPost);
+  newPost.save().then(function(savedPost) {
+    res.redirect("/in");
+  });
 });
 
 app.post("/logout", function(req, res) {
