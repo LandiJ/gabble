@@ -16,13 +16,10 @@ module.exports = function(sequelize, DataTypes) {
         type: DataTypes.TEXT
       }
     },
-    {
-      classMethods: {
-        associate: function(models) {
-          // associations can be defined here
-        }
-      }
-    }
+    {}
   );
+  user.associate = function(models) {
+    user.hasMany(models.post, { as: "posts", foreignKey: "authorid" });
+  };
   return user;
 };

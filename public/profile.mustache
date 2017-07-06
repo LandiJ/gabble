@@ -24,14 +24,14 @@
                 <button class="dropbtn">Logged in as {{user.name}}</button>
                 <div class="dropdown-content">
                     <a href="./login">Login</a> <br>
-                    <a href="./profile">Profile</a><br>
+                    <a href="./in">Profile</a><br>
                     <a href="./signup">Signup</a><br>
-                    <a href="./index">
-                        <form action="/logout" method="post">
+                    <a href="./homepage">Homepage</a>
+                    <form action="/logout" method="post">
 
-                            <input class="submit" type="submit" value="Logout">
+                        <input class="submit" type="submit" value="Logout">
 
-                        </form>
+                    </form>
                     </a>
                 </div>
             </div>
@@ -42,18 +42,26 @@
         </div>
     </div>
     {{#user}}
-    <h4>{{user.name}}</h4>
-    <p>{{user.bio}}</p>
+    <h4 class="name">{{user.name}}</h4>
+    <p class="post">{{user.bio}}</p>
     {{/user}}
 
     <form action="/post" method="post">
         <label for="">What's New?</label>
-        <input type="text" name="body">
+        <textarea rows="4" cols="50" name="body">
+Enter text here...</textarea>
         <input type="submit" value="Post">
 
     </form>
 
-    {{#posts}}{{body}}<br>{{/posts}}
+    {{#posts}}
+    <div class="post" <span class="name">{{user.name}}</span><span class="body">{{body}}</span><br>
+        <form action="/delete-post/{{id}}" method="post">
+            <input type="Submit" value="Delete This Post">
+        </form>
+    </div>
+
+    {{/posts}}
 
 
 

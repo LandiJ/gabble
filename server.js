@@ -59,11 +59,9 @@ app.post("/login", function(req, res) {
   var userIs;
 
   models.user.findAll().then(function(foundUsers) {
-    // console.log(foundUsers);
     foundUsers.forEach(function(item) {
       if (item.email === userMaybe.email) {
         userIs = item;
-        // console.log("LOOK HERE", userIs);
       }
     });
 
@@ -80,17 +78,63 @@ app.post("/login", function(req, res) {
   });
 });
 
+app.post("/like", function(req, res) {
+  var newLike = models.like.build(req.body);
+  newLike.save().then(function(savedLike) {
+    res.redirect("/homepage");
+  });
+});
+
+app.post("/likes", function(req, res) {
+  models.like
+    .findAll({
+      include: [
+        {
+          model: models.user,
+          as: "author"
+        }
+      ],
+      where: { postid: req.body.postid }
+    })
+    .then(function(foundLikes) {
+      res.render("likes", { likes: foundLikes });
+    });
+});
+
+// This is the profile page when the user is logged in
+
 app.get("/in", checkAuth, function(req, res) {
   models.post
     .findAll({
-      limit: 10,
       order: [["createdAt", "DESC"]],
       where: { authorid: req.session.userMaybe.id }
     })
     .then(function(foundPosts) {
       res.render("profile", { user: req.session.userMaybe, posts: foundPosts });
     });
-  //   res.render("profile", { user: req.session.userMaybe });
+});
+
+app.get("/homepage", function(req, res) {
+  models.post
+    .findAll({
+      order: [["createdAt", "DESC"]],
+      include: [
+        {
+          model: models.user,
+          as: "author"
+        },
+        {
+          model: models.like,
+          as: "likes"
+        }
+      ]
+    })
+    .then(function(allPosts) {
+      res.render("homepage", {
+        all: allPosts,
+        user: req.session.userMaybe
+      });
+    });
 });
 
 app.get("/profile", checkAuth, function(req, res) {
@@ -106,6 +150,24 @@ app.post("/post", checkAuth, function(req, res) {
   newPost.save().then(function(savedPost) {
     res.redirect("/in");
   });
+});
+
+app.post("/delete-post/:id", (req, res) => {
+  models.like
+    .destroy({ where: { postid: req.params.id } })
+    .then(() => {
+      models.post
+        .destroy({ where: { id: req.params.id } })
+        .then(() => {
+          res.redirect("/in");
+        })
+        .catch(err => {
+          res.status(500).send(err);
+        });
+    })
+    .catch(err => {
+      res.status(500).send(err);
+    });
 });
 
 app.post("/logout", function(req, res) {
