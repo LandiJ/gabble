@@ -56,8 +56,22 @@ body {
     text-align: center;
 }
 
+.delete-post {
+    text-align: right;
+}
+
+#profile {
+    text-align: left;
+}
+
 .user {
     text-align: right;
+}
+
+.postInput {
+    /*padding-right: 200px;*/
+    font-size: 20px;
+    overflow-y: hidden;
 }
 
 .index_header {

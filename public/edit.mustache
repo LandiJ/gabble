@@ -5,7 +5,7 @@
     <title></title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link href="main.css" rel="stylesheet">
+    <link href="/main.css" rel="stylesheet">
 </head>
 
 <body>
@@ -15,6 +15,7 @@
 
 
         <h1 class="gabble_profile_header">Gabble!!</h1>
+
 
 
         <div class="user">
@@ -41,33 +42,23 @@
             {{/user}}
         </div>
     </div>
-    {{#user}}
-    <div id="profile">
-        <h4 id="profileName">{{user.name}}</h4>
-        <p id="profileBody">{{user.bio}}</p>
-        <form action="/edit-page/{{id}}" method="post">
-            <input class="likeBtn" type="submit" value="Edit Profile">
+    {{#foundUser}}
 
-        </form>
-    </div>
-    {{/user}}
+    <form action="/edit-profile/{{id}}" method="post">
+        <label for="">Name</label>
+        <input type="text" name="name" value="{{name}}">
+        <label for="">Bio</label>
+        <input type="text" name="bio" value="{{bio}}">
+        <input class="submit" type="submit" value="submit">
 
-    <form action="/post" method="post">
-        <label for="">What's New?</label>
-        <input class="postInput" type="text" maxlength="140" size="80" name="body">
-        <input class="likeBtn" type="submit" value="Post">
 
     </form>
 
-    {{#posts}}
-    <div class="post"><span class="name">{{user.name}}</span><span class="body">{{body}}</span><br>
-        <form class="delete-post" action="/delete-post/{{id}}" method="post">
-            <input class="likeBtn" type="Submit" value="Delete This Post">
-        </form>
-        <span id="date">{{createdAt}}</span>
-    </div>
+    {{/foundUser}}
 
-    {{/posts}}
+
+
+
 
 
 
