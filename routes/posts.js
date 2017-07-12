@@ -27,7 +27,7 @@ function posts(app) {
         models.post
           .destroy({ where: { id: req.params.id } })
           .then(() => {
-            res.redirect("/in");
+            return res.redirect("/in");
           })
           .catch(err => {
             res.status(500).send(err);

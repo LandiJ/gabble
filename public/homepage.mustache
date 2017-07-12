@@ -24,7 +24,7 @@
                 <button class="dropbtn">Logged in as {{user.name}}</button>
                 <div class="dropdown-content">
                     <a href="./login">Login</a> <br>
-                    <a href="./profile">Profile</a><br>
+                    <a href="./in">Profile</a><br>
                     <a href="./signup">Signup</a><br>
                     <a href="./index">
                         <form action="/logout" method="post">
@@ -53,7 +53,7 @@
 
     {{#all}}
     <div class="post"><span><span class="name">{{author.name}}</span><span class="body">{{all.body}}{{body}}</span>
-        <form class="likes" action="/like" method="post">
+        <form class="likes" action="/like/{{id}}" method="post">
             <input type="hidden" name="postid" value={{id}}>
             <input type="hidden" name="authorid" value={{user.id}}>
             <input class="likeBtn" type="submit" value="Like"></form>Liked by: &nbsp {{likes.length}} &nbsp users
