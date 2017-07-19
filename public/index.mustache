@@ -15,9 +15,12 @@
 
     <div class="user">
 
-        {{#user}}
+
         <div class="dropdown">
-            <button class="dropbtn">Logged in as {{user.name}}</button>
+           <button class="dropbtn">{{#user}}Logged in as   {{user.name}}{{/user}} {{^user}}
+
+        <h3>No user logged in</h3>
+        {{/user}}</button>
             <div class="dropdown-content">
                 <a href="./login">Login</a> <br>
                 <a href="./in">Profile</a><br>
@@ -31,11 +34,7 @@
                 </a>
             </div>
         </div>
-        {{/user}} {{^user}}
-
-        <h3>No user logged in</h3>
-        {{/user}}
-        <h3>
+        
     </div>
 
     <h1 class="index_header">Gabble!!</h1>
@@ -62,15 +61,8 @@
 
 
 
-    <a href="./login"><input type="button" value ="Login"></a> <br>
-    <a href="./profile"><input type="button" value ="Profile"></a><br>
-    <a href="./signup"><input type="button" value ="Signup"></a><br>
-    <form action="/logout" method="post">
-
-        <input type="submit" value="Logout">
-
-    </form>
-
+   
+   
 
 
 </body>
