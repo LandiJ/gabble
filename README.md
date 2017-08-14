@@ -1,4 +1,4 @@
-# Gabble Project
+# Gabble Social Site
 ## Featuring Html, CSS, Node.js, Express, Sequelize, and Mustache
 
 ### Use Express and Sequelize to build a social network for students. This network, called "Gabble," has users, public messages, and likes.
